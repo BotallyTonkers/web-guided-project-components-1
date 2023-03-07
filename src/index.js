@@ -45,8 +45,11 @@ const accordion = document.querySelector(".accordian");
 
 
 // TASK 4- Create a function 'makePanel' that creates a panel exactly as you see it in the HTML.
-function makePanel(/* what data does the panel need? */) {
+function makePanel({title, content}) {
 
+//   same as
+// const title = panelObj.title;
+// const content = panelObj.content;
 
   // TASK 5- Instantiate all the elements needed for a panel
   const panel = document.createElement("div");
@@ -101,30 +104,43 @@ panelBar.classList.add("panel-bar");
 panelButtons.classList.add("panel-buttons");
 openButton.classList.add("panel-btn-open");
 closeButton.classList.add("panel-btn-close", "hide-btn");
-panelContent.classList.add
+panelContent.classList.add("panel-content")
 
   // TASK 8- Set text content using arguments as raw material
   //  and also using the open and close arrows imported at the top of the file
-
+  panelTitle.textContent = title;
+  panelContent.textContent = content;
+  openButton.textContent = open;
+  closeButton.textContent = close;
 
   // TASK 9- When the 'open' or 'close' buttons are clicked, the content is toggled on/off:
   //  - the open button needs to go away (the 'hide-btn' class name controls this)
   //  - the close button needs to show (the 'hide-btn' class name controls this)
   //  - the contents need to show (the 'toggle-on' class name controls this)
-
+  panelButtons.addEventListener("click" , () => {
+  openButton.classList.toggle("hide-btn");
+  closeButton.classList.toggle("hide-btn");
+  panelContent.classList.toggle("toggle-on");
+})
 
   // don't forget to return the panel!
-  return null
+  return panel;
 }
 
 
-const testPanel = makePanel({ title: "foo", content: "bar" });
-accordion.appendChild(testPanel);
+// const testPanel = makePanel({ title: "foo", content: "bar" });
+// accordion.appendChild(testPanel);
 
 // TASK 10- Loop through the panelData we imported from the data folder
 //  creating panels for each content and title and append them to the DOM.
 //  We can do this with a single forEach, or with a map and a forEach.
+const panelElements = panelData.map(panelObj => {
+  return makePanel(panelObj);
 
+})
+panelElements.forEach(panelElement => {
+  accordion.appendChild(panelElement);
+})
 
 // [STRETCH] Comment out the links inside the nav and
 // write a linkMaker that takes { href, className, text }
